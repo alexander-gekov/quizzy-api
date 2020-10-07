@@ -4,5 +4,5 @@ import com.quizzy.quizzy.model.Question;
 import com.quizzy.quizzy.model.Quiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface QuestionRepository extends JpaRepository<Question,String> {
+public interface QuestionRepository extends JpaRepository<Question,Integer> {
 }

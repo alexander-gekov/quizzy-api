@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class QuizController {
+public class QuizResource {
     private final QuizRepository repository;
 
-    QuizController(QuizRepository repository){
+    QuizResource(QuizRepository repository){
         this.repository = repository;
     }
 
+    @CrossOrigin
     @GetMapping("/quizzes")
     List<Quiz> all(){
         return repository.findAll();
@@ -27,15 +28,14 @@ public class QuizController {
     }
 
     @GetMapping("/quizzes/{id}")
-    Quiz one(@PathVariable String id){
-        return repository.findById(id)
-                .orElseThrow(()->new UserNotFoundException(id));
+    Quiz one(@PathVariable int id){
+        return repository.findById(id).get();
     }
 
     @PutMapping("/quizzes/{id}")
     Quiz replaceUser(@RequestBody Quiz newQuiz, @PathVariable int id){
 
-        return repository.findById(String.valueOf(id))
+        return repository.findById(id)
                 .map(quiz -> {
                     quiz.setName(newQuiz.getName());
                     quiz.setTopic(newQuiz.getTopic());
@@ -48,7 +48,7 @@ public class QuizController {
     }
 
     @DeleteMapping("/quizzes/{id}")
-    void deleteQuiz(@PathVariable String id){
+    void deleteQuiz(@PathVariable int id){
         repository.deleteById(id);
     }
 }

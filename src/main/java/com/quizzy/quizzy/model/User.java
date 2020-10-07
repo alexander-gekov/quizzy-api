@@ -1,5 +1,6 @@
 package com.quizzy.quizzy.model;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
 
     private static int counter = 1;

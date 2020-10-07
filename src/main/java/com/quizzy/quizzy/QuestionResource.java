@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class QuestionController {
+public class QuestionResource {
     private final QuestionRepository repository;
 
-    QuestionController(QuestionRepository repository){
+    QuestionResource(QuestionRepository repository){
         this.repository = repository;
     }
 
@@ -27,21 +27,20 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/{id}")
-    Question one(@PathVariable String id){
-        return repository.findById(id)
-                .orElseThrow(()->new UserNotFoundException(id));
+    Question one(@PathVariable int id){
+        return repository.findById(id).get();
     }
 
     @PutMapping("/question/{id}")
     Question replaceQuestion(@RequestBody Question newQuestion, @PathVariable int id){
 
-        return repository.findById(String.valueOf(id))
+        return repository.findById(id)
                 .map(question -> {
                     question.setQuestion(newQuestion.getQuestion());
-                    question.setAnswer1(newQuestion.getAnswer1());
-                    question.setAnswer2(newQuestion.getAnswer2());
-                    question.setAnswer3(newQuestion.getAnswer3());
-                    question.setAnswer4(newQuestion.getAnswer4());
+//                    question.setAnswer1(newQuestion.getAnswer1());
+//                    question.setAnswer2(newQuestion.getAnswer2());
+//                    question.setAnswer3(newQuestion.getAnswer3());
+//                    question.setAnswer4(newQuestion.getAnswer4());
                     return repository.save(question);
                 })
                 .orElseGet(()->{
@@ -51,7 +50,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/questions/{id}")
-    void deleteQuestion(@PathVariable String id){
+    void deleteQuestion(@PathVariable int id){
         repository.deleteById(id);
     }
 }
