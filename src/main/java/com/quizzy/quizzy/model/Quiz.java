@@ -12,8 +12,8 @@ import java.util.Set;
 public class Quiz implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private static int counter = 1;
     private String name;
     private String topic;
     private int number_of_questions;
@@ -23,6 +23,8 @@ public class Quiz implements Serializable {
     private List<Question> questions;
 
     public Quiz(String name, String topic, List<Question> questions) {
+        this.id = this.counter;
+        this.counter++;
         this.name = name;
         this.topic = topic;
         this.questions = questions;
@@ -30,6 +32,8 @@ public class Quiz implements Serializable {
     }
 
     public Quiz(String name, String topic) {
+        this.id = this.counter;
+        this.counter++;
         this.name = name;
         this.topic = topic;
         this.number_of_questions = 0;
