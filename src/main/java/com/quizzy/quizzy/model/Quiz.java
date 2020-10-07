@@ -11,8 +11,10 @@ import java.util.Set;
 @Table(name = "quizzes")
 public class Quiz implements Serializable {
 
-    @Id
+     @Id
+    @GeneratedValue
     private int id;
+
     private static int counter = 1;
     private String name;
     private String topic;
