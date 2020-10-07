@@ -22,16 +22,19 @@ public class QuizResource {
         return repository.findAll();
     }
 
+    @CrossOrigin
     @PostMapping("/quizzes")
     Quiz newQuiz(@RequestBody Quiz newQuiz){
         return repository.save(newQuiz);
     }
 
+    @CrossOrigin
     @GetMapping("/quizzes/{id}")
     Quiz one(@PathVariable int id){
         return repository.findById(id).get();
     }
 
+    @CrossOrigin
     @PutMapping("/quizzes/{id}")
     Quiz replaceUser(@RequestBody Quiz newQuiz, @PathVariable int id){
 
@@ -47,6 +50,7 @@ public class QuizResource {
                 });
     }
 
+    @CrossOrigin
     @DeleteMapping("/quizzes/{id}")
     void deleteQuiz(@PathVariable int id){
         repository.deleteById(id);
