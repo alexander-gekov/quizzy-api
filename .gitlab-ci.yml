@@ -10,17 +10,14 @@ build:
   script:
     - ./mvnw clean install
     - ./mvnw compiler:compile
-    - echo "Build successful"
 
 test:
   stage: test
   script:
     - ./mvnw test
-    - echo "Test successful"
 
 sonar: 
   stage: sonar
   script:
-    echo "Analyzing project..."
     ./mvnw package sonar:sonar
     ./mvnw sonar:sonar  "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55"
