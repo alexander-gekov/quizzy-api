@@ -17,16 +17,13 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 public class UserResource {
-
-    @Autowired
     private final UserRepository repository;
 
     UserResource(UserRepository repository) {
         this.repository = repository;
     }
 
-    @Autowired
-
+    @CrossOrigin
     @GetMapping("/users")
     List<User> all() {
         return repository.findAll();
@@ -34,7 +31,7 @@ public class UserResource {
 
     @CrossOrigin
     @PostMapping("/users")
-    public User newUser(@RequestBody User newUser){
+    public User newUser(@RequestBody User newUser) {
         User savedUser = repository.save(newUser);
         return savedUser;
     }
