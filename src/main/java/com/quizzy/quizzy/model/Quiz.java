@@ -18,8 +18,8 @@ public class Quiz implements Serializable {
     private String topic;
     private int number_of_questions;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY,
+//    cascade = CascadeType.ALL)
     private List<Question> questions;
 
     public Quiz(String name, String topic, List<Question> questions) {
