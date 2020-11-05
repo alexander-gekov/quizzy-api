@@ -7,6 +7,7 @@ import com.quizzy.quizzy.repository.QuizRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class QuestionResource {
@@ -17,22 +18,25 @@ public class QuestionResource {
     }
 
     @GetMapping("/questions")
-    List<Question> all(){
+    public List<Question> all(){
         return repository.findAll();
     }
 
     @PostMapping("/questions")
-    Question newQuestion(@RequestBody Question newQuestion){
+    public Question newQuestion(@RequestBody Question newQuestion){
         return repository.save(newQuestion);
     }
 
     @GetMapping("/questions/{id}")
-    Question one(@PathVariable int id){
-        return repository.findById(id).get();
+    public Question one(@PathVariable int id){
+        Optional<Question> question = repository.findById(id);
+        if (question.isEmpty())
+            throw new UserNotFoundException("id-" + id);
+        return question.get();
     }
 
     @PutMapping("/question/{id}")
-    Question replaceQuestion(@RequestBody Question newQuestion, @PathVariable int id){
+    public Question replaceQuestion(@RequestBody Question newQuestion, @PathVariable int id){
 
         return repository.findById(id)
                 .map(question -> {
@@ -50,7 +54,7 @@ public class QuestionResource {
     }
 
     @DeleteMapping("/questions/{id}")
-    void deleteQuestion(@PathVariable int id){
+    public void deleteQuestion(@PathVariable int id){
         repository.deleteById(id);
     }
 }
