@@ -1,10 +1,7 @@
 package com.quizzy.quizzy;
 
-import com.quizzy.quizzy.model.Question;
 import com.quizzy.quizzy.model.Quiz;
-import com.quizzy.quizzy.model.User;
 import com.quizzy.quizzy.repository.QuizRepository;
-import com.quizzy.quizzy.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

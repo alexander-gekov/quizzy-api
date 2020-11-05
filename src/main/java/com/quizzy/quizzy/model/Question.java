@@ -11,7 +11,7 @@ public class Question implements Serializable {
     @GeneratedValue()
     private int id;
 
-    private String question;
+    private String questionString;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="answer_1",referencedColumnName = "id")
@@ -38,12 +38,12 @@ public class Question implements Serializable {
     }
 
     public Question(String question, Quiz quiz){
-        this.question = question;
+        this.questionString = question;
         this.quiz = quiz;
     }
 
     public Question(String question, Answer answer1, Answer answer2, Answer answer3, Answer answer4, Quiz quiz) {
-        this.question = question;
+        this.questionString = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
@@ -52,7 +52,7 @@ public class Question implements Serializable {
     }
 
     public Question(String question, Answer answer1, Answer answer2, Answer answer3, Answer answer4) {
-        this.question = question;
+        this.questionString = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
@@ -68,11 +68,11 @@ public class Question implements Serializable {
     }
 
     public String getQuestion() {
-        return question;
+        return questionString;
     }
 
     public void setQuestion(String question) {
-        this.question = question;
+        this.questionString = question;
     }
 
     public Answer getAnswer1() {
