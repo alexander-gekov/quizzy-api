@@ -19,5 +19,5 @@ test:
 sonar: 
   stage: sonar
   script:
-    mvn package sonar:sonar
-    mvn sonar:sonar  "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55"
+    - ./mvnw package sonar:sonar
+    - ./mvnw sonar:sonar  "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55"
