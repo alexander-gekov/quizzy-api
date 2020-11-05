@@ -8,29 +8,29 @@ import java.io.Serializable;
 public class Question implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
     private int id;
 
     private String question;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="answer_1",referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="answer_1",referencedColumnName = "id")
     private Answer answer1;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="answer_2",referencedColumnName = "id")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="answer_2",referencedColumnName = "id")
    private Answer answer2;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="answer_3",referencedColumnName = "id")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="answer_3",referencedColumnName = "id")
    private Answer answer3;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="answer_4",referencedColumnName = "id")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="answer_4",referencedColumnName = "id")
     private Answer answer4;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-//    @JoinColumn(name = "quiz_id", nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quiz_id", nullable = false)
    private Quiz quiz;
 
     public Question(){
