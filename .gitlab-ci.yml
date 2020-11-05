@@ -27,14 +27,10 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - ./mvnw verify sonar:sonar "-Dsonar.qualitygate.wait=true" "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55"
+    - ./mvnw sonar:sonar "-Dsonar.qualitygate.wait=true" "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55"
   allow_failure: true
   only:
     - merge_requests
     - master
     - develop
 
-sonar: 
-  stage: sonar
-  script:
-    - ./mvnw --batch-mode verify sonar:sonar "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=50c0c487c8aa47080768edeb79d16d9562c9bf55" -DskipTests=true "
