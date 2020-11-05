@@ -27,7 +27,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - ./mvnw clean install sonar:sonar "-Dsonar.sources=src/main/java/" "-Dsonar.java.binaries=target/classes" "-Dsonar.qualitygate.wait=true" "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=4f5291f80c628f8a1507584b0c859c6d6ea79e3c"
+    - ./mvnw clean install sonar:sonar "-Dsonar.sources=src/main/java/" "-Dsonar.java.binaries=target/classes" "-Dsonar.qualitygate.wait=true" "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=9fc7e2e8dc8827eaf2af89297773d0f5f26ceccb"
   allow_failure: true
   only:
     - merge_requests
