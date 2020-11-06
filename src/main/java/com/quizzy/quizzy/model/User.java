@@ -60,8 +60,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username) &&
+        return  Objects.equals(username, user.username) &&
                 Objects.equals(email, user.email);
     }
 
@@ -77,5 +76,9 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
