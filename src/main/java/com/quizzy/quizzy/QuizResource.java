@@ -20,7 +20,6 @@ public class QuizResource {
 
     @CrossOrigin
     @GetMapping("/")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Quiz> all(){
         return repository.findAll();
     }
