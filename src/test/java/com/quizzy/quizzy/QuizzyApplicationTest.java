@@ -14,10 +14,13 @@ public class QuizzyApplicationTest {
     private UserResource userController;
     @Autowired
     private QuizResource quizController;
+    @Autowired
+    private AuthController authController;
 
     @Test
     public void contextLoads() throws Exception{
         assertThat(userController).isNotNull();
         assertThat(quizController).isNotNull();
+        assertThat(authController).isNotNull();
     }
 }
