@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -29,13 +30,14 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    
+
     public User(String username, String email, String password) {
         this.id = counter;
         counter++;
         this.username = username;
         this.email = email;
-        this.password = password;
-    }
+        this.password = password; }
 
     public User() {
 

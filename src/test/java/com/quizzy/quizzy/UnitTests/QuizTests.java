@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuizTests {
 
     @Test
-    public void QuizCreateTest() {
+    public void testQuizCreate() {
         Quiz quiz = new Quiz("name", "topic", new ArrayList<>());
 
         assertEquals("name", quiz.getName());
@@ -22,7 +22,7 @@ public class QuizTests {
     }
 
     @Test
-    public void GetNameTest() {
+    public void testGetName() {
         Quiz quiz = new Quiz("name", "topic", new ArrayList<>());
 
 
@@ -30,7 +30,7 @@ public class QuizTests {
     }
 
     @Test
-    public void SetNameTest() {
+    public void testSetName() {
         Quiz quiz = new Quiz("name", "topic", new ArrayList<>());
 
         quiz.setName("name2");

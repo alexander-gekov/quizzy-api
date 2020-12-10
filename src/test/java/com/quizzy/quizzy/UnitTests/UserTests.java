@@ -18,7 +18,7 @@ public class UserTests {
     }
 
     @Test
-    public void UserCreateTest() {
+    public void testUserCreate() {
         User user = new User("username", "email", "password");
 
         assertEquals("username", user.getUsername());
@@ -27,7 +27,7 @@ public class UserTests {
     }
 
     @Test
-    public void GetIdTest() throws NoSuchFieldException, IllegalAccessException {
+    public void testGetId() throws NoSuchFieldException, IllegalAccessException {
         prepare();
         User user = new User("username", "email", "password");
 
@@ -35,7 +35,7 @@ public class UserTests {
     }
 
     @Test
-    public void IdIncrementTest() throws NoSuchFieldException, IllegalAccessException {
+    public void testIdIncrement() throws NoSuchFieldException, IllegalAccessException {
         prepare();
         User user = new User("username", "email", "password");
         User user2 = new User("username", "email", "password");
@@ -44,49 +44,49 @@ public class UserTests {
     }
 
     @Test
-    public void SetIdTest() {
+    public void testSetId() {
         User user = new User("username", "email", "password");
         user.setId(3);
         assertEquals(3, user.getId());
     }
 
     @Test
-    public void GetUsernameTest() {
+    public void testGetUsername() {
         User user = new User("username", "email", "password");
 
         assertEquals("username", user.getUsername());
     }
 
     @Test
-    public void SetUsernameTest() {
+    public void testSetUsername() {
         User user = new User("username", "email", "password");
         user.setUsername("username101");
         assertEquals("username101", user.getUsername());
     }
 
     @Test
-    public void GetPasswordTest() {
+    public void testGetPassword() {
         User user = new User("username", "email", "password");
 
         assertEquals("password", user.getPassword());
     }
 
     @Test
-    public void GetEmailTest() {
+    public void testGetEmail() {
         User user = new User("username", "email", "password");
 
         assertEquals("email", user.getEmail());
     }
 
     @Test
-    public void SetEmailTest() {
+    public void testSetEmailTest() {
         User user = new User("username", "email", "password");
         user.setEmail("email101");
         assertEquals("email101", user.getEmail());
     }
 
     @Test
-    public void EqualsTest(){
+    public void testEqualsTest(){
         User user = new User("username", "email", "password");
         User user2 = new User("username", "email", "password");
 
