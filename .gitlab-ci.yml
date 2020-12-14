@@ -20,6 +20,7 @@ test:
 
 docker:
   title: Building Docker Image
+  type: build
   stage: docker
   image_name: quizzy-app
   working_directory: ./
