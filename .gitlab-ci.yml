@@ -3,6 +3,7 @@ image: maven:3-jdk-11
 stages:
   - build
   - test
+  - docker
   - sonar
 
 build:
@@ -15,13 +16,22 @@ test:
   stage: test
   script:
     - ./mvnw test
-  
+    - ./mvnw -Dmaven.repo.local=/quizzy-api/volume/m2_repository package
+
+docker:
+  title: Building Docker Image
+  stage: docker
+  image_name: quizzy-app
+  working_directory: ./
+  tag: "latest"
+  dockerfile: Dockerfile.only-package
+
 sonarqube-check:
   stage: sonar
   image: maven:3.6.3-jdk-11
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+    GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
     key: "${CI_JOB_NAME}"
     paths:
@@ -33,4 +43,3 @@ sonarqube-check:
     - merge_requests
     - master
     - develop
-
