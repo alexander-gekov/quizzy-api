@@ -1,5 +1,7 @@
 package com.quizzy.quizzy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,98 +15,98 @@ public class Question implements Serializable {
 
     private String questionString;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="answer_1",referencedColumnName = "id")
-    private Answer answer1;
+    private String answer1;
+    private String answer2;
+    private String answer3;
+    private String answer4;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="answer_2",referencedColumnName = "id")
-   private Answer answer2;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="answer_3",referencedColumnName = "id")
-   private Answer answer3;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="answer_4",referencedColumnName = "id")
-    private Answer answer4;
+    private String correctAnswer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quiz_id", nullable = false)
-   private Quiz quiz;
+    @JsonBackReference
+    private Quiz quiz;
 
-    public Question(){
+    public Question() {
 
     }
 
-    public Question(String question, Quiz quiz){
+    public Question(String question, Quiz quiz) {
         this.questionString = question;
         this.quiz = quiz;
     }
 
-    public Question(String question, Answer answer1, Answer answer2, Answer answer3, Answer answer4, Quiz quiz) {
+    public Question(String question, String answer1, String answer2, String answer3, String answer4, String correctAnswer, Quiz quiz) {
         this.questionString = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
         this.answer4 = answer4;
+        this.correctAnswer = correctAnswer;
         this.quiz = quiz;
     }
 
-    public Question(String question, Answer answer1, Answer answer2, Answer answer3, Answer answer4) {
-        this.questionString = question;
+    public String getAnswer1() {
+        return answer1;
+    }
+
+    public void setAnswer1(String answer1) {
         this.answer1 = answer1;
+    }
+
+    public String getAnswer2() {
+        return answer2;
+    }
+
+    public void setAnswer2(String answer2) {
         this.answer2 = answer2;
+    }
+
+    public String getAnswer3() {
+        return answer3;
+    }
+
+    public void setAnswer3(String answer3) {
         this.answer3 = answer3;
+    }
+
+    public String getAnswer4() {
+        return answer4;
+    }
+
+    public void setAnswer4(String answer4) {
         this.answer4 = answer4;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getQuestionString() {
+        return questionString;
+    }
+
+    public void setQuestionString(String questionString) {
+        this.questionString = questionString;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getQuestion() {
-        return questionString;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setQuestion(String question) {
-        this.questionString = question;
+    public Quiz getQuiz() {
+        return quiz;
     }
 
-    public Answer getAnswer1() {
-        return answer1;
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
     }
 
-    public void setAnswer1(Answer answer1) {
-        this.answer1 = answer1;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public Answer getAnswer2() {
-        return answer2;
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
-
-    public void setAnswer2(Answer answer2) {
-        this.answer2 = answer2;
-    }
-
-    public Answer getAnswer3() {
-        return answer3;
-    }
-
-    public void setAnswer3(Answer answer3) {
-        this.answer3 = answer3;
-    }
-
-    public Answer getAnswer4() {
-        return answer4;
-    }
-
-    public void setAnswer4(Answer answer4) {
-        this.answer4 = answer4;
-    }
-
 }

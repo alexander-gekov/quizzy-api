@@ -3,7 +3,6 @@ image: maven:3-jdk-11
 stages:
   - build
   - test
-  - docker
   - sonar
 
 build:
@@ -17,15 +16,6 @@ test:
   script:
     - ./mvnw test
     - ./mvnw -Dmaven.repo.local=/quizzy-api/volume/m2_repository package
-
-docker:
-  title: Building Docker Image
-  type: build
-  stage: docker
-  image_name: quizzy-app
-  working_directory: ./
-  tag: "latest"
-  dockerfile: Dockerfile.only-package
 
 sonarqube-check:
   stage: sonar

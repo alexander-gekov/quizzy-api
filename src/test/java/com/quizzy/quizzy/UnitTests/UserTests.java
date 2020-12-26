@@ -1,10 +1,15 @@
 package com.quizzy.quizzy.UnitTests;
 
+import com.quizzy.quizzy.model.ERole;
+import com.quizzy.quizzy.model.Role;
 import com.quizzy.quizzy.model.User;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -103,5 +108,16 @@ public class UserTests {
                 ", username='" + "username" + '\'' +
                 ", email='" + "email" + '\'' +
                 '}',user.toString());
+    }
+
+    @Test
+    public void GetRolesTest() throws NoSuchFieldException, IllegalAccessException {
+        prepare();
+        User user = new User("username","email","password");
+        Set<Role> roles = new HashSet<>();
+        Role role = new Role(ERole.ROLE_USER);
+        roles.add(role);
+        user.setRoles(roles);
+        assertFalse(user.getRoles().isEmpty());
     }
 }
