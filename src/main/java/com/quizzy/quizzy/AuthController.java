@@ -32,7 +32,7 @@ import com.quizzy.quizzy.repository.UserRepository;
 import com.quizzy.quizzy.security.jwt.JwtUtils;
 import com.quizzy.quizzy.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600000)
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -53,6 +53,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @CrossOrigin()
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -74,6 +75,7 @@ public class AuthController {
                 roles));
     }
 
+    @CrossOrigin()
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
