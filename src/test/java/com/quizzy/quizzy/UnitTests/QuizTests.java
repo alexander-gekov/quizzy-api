@@ -13,6 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuizTests {
 
     @Test
+    public void QuizConstructorTest(){
+        Quiz quiz = new Quiz("name","topic");
+        assertEquals("name",quiz.getName());
+        assertEquals("topic",quiz.getTopic());
+    }
+
+    @Test
     public void QuizCreateTest() {
         Quiz quiz = new Quiz("name", "topic", new ArrayList<>());
 

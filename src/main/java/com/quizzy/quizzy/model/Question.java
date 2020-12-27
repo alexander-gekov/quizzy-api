@@ -21,6 +21,7 @@ public class Question implements Serializable {
     private String answer4;
 
     private String correctAnswer;
+    private int seconds;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "quiz_id", nullable = false)
@@ -36,12 +37,13 @@ public class Question implements Serializable {
         this.quiz = quiz;
     }
 
-    public Question(String question, String answer1, String answer2, String answer3, String answer4, String correctAnswer, Quiz quiz) {
+    public Question(String question, String answer1, String answer2, String answer3, String answer4, String correctAnswer,int seconds, Quiz quiz) {
         this.questionString = question;
         this.answer1 = answer1;
         this.answer2 = answer2;
         this.answer3 = answer3;
         this.answer4 = answer4;
+        this.seconds = seconds;
         this.correctAnswer = correctAnswer;
         this.quiz = quiz;
     }
@@ -108,5 +110,13 @@ public class Question implements Serializable {
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 }

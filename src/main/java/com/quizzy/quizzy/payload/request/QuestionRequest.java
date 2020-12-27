@@ -18,6 +18,9 @@ public class QuestionRequest {
     @NotBlank
     private String correctAnswer;
 
+    @NotBlank
+    private int seconds;
+
     private int quiz_id;
 
     public String getQuestionString() {
@@ -74,5 +77,13 @@ public class QuestionRequest {
 
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 }

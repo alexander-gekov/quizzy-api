@@ -3,7 +3,6 @@ package com.quizzy.quizzy;
 import com.quizzy.quizzy.model.Question;
 import com.quizzy.quizzy.model.Quiz;
 import com.quizzy.quizzy.payload.request.QuestionRequest;
-import com.quizzy.quizzy.payload.response.QuestionResponse;
 import com.quizzy.quizzy.repository.QuestionRepository;
 import com.quizzy.quizzy.repository.QuizRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,6 +37,7 @@ public class QuestionResource {
         newQuestion.setAnswer3(questionRequest.getAnswer3());
         newQuestion.setAnswer4(questionRequest.getAnswer4());
         newQuestion.setCorrectAnswer(questionRequest.getCorrectAnswer());
+        newQuestion.setSeconds(questionRequest.getSeconds());
         Optional<Quiz> quiz = quizRepository.findById(questionRequest.getQuiz_id());
         if (quiz.isEmpty())
             throw new NoSuchElementException();
@@ -54,23 +54,26 @@ public class QuestionResource {
         return question.get();
     }
 
-    @PutMapping("/question/{id}")
-    public Question replaceQuestion(@RequestBody Question newQuestion, @PathVariable int id) {
-
-        return repository.findById(id)
-                .map(question -> {
-                    question.setQuestionString(newQuestion.getQuestionString());
-                    question.setAnswer1(newQuestion.getAnswer1());
-                    question.setAnswer2(newQuestion.getAnswer2());
-                    question.setAnswer3(newQuestion.getAnswer3());
-                    question.setAnswer4(newQuestion.getAnswer4());
-                    question.setQuiz(newQuestion.getQuiz());
-                    return repository.save(question);
-                })
-                .orElseGet(() -> {
-                    newQuestion.setId(id);
-                    return repository.save(newQuestion);
-                });
+    @PutMapping("/questions/{id}")
+    public Question replaceQuestion(@RequestBody QuestionRequest questionRequest, @PathVariable int id) {
+        Optional<Question> optionalQuestion = repository.findById(id);
+        if(optionalQuestion.isPresent()){
+            optionalQuestion.get().setQuestionString(questionRequest.getQuestionString());
+            optionalQuestion.get().setAnswer1(questionRequest.getAnswer1());
+            optionalQuestion.get().setAnswer2(questionRequest.getAnswer2());
+            optionalQuestion.get().setAnswer3(questionRequest.getAnswer3());
+            optionalQuestion.get().setAnswer4(questionRequest.getAnswer4());
+            optionalQuestion.get().setCorrectAnswer(questionRequest.getCorrectAnswer());
+            optionalQuestion.get().setSeconds(questionRequest.getSeconds());
+            Optional<Quiz> quiz = quizRepository.findById(questionRequest.getQuiz_id());
+            if (quiz.isEmpty())
+                throw new NoSuchElementException();
+            optionalQuestion.get().setQuiz(quiz.get());
+            return repository.save(optionalQuestion.get());
+        }
+        else{
+            throw new NoSuchElementException();
+        }
     }
 
     @DeleteMapping("/questions/{id}")

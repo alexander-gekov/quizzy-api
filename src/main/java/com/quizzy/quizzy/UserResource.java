@@ -43,7 +43,7 @@ public class UserResource {
         Optional<User> userOptional = repository.findById(id);
 
         if (userOptional.isEmpty()) {
-            return null;
+            throw new UserNotFoundException("id-" + id);
         }
 
         newUser.setId(id);
