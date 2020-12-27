@@ -1,5 +1,6 @@
 package com.quizzy.quizzy.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -20,7 +21,6 @@ public class Quiz implements Serializable {
     private static int counter = 1;
     private String name;
     private String topic;
-    private int number_of_questions;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
@@ -28,21 +28,22 @@ public class Quiz implements Serializable {
     @JsonManagedReference
     private List<Question> questions;
 
-    public Quiz(String name, String topic, List<Question> questions) {
-        this.id = this.counter;
-        this.counter++;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
+    private User user;
+
+    public Quiz(String name, String topic, List<Question> questions, User user) {
         this.name = name;
         this.topic = topic;
         this.questions = questions;
-        this.number_of_questions = questions.size();
+        this.user = user;
     }
 
-    public Quiz(String name, String topic) {
-        this.id = this.counter;
-        this.counter++;
+    public Quiz(String name, String topic,User user) {
         this.name = name;
         this.topic = topic;
-        this.number_of_questions = 0;
+        this.user = user;
     }
 
     public Quiz() {
@@ -82,11 +83,11 @@ public class Quiz implements Serializable {
         this.questions = questions;
     }
 
-    public int getNumber_of_questions() {
-        return number_of_questions;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setNumber_of_questions(int number_of_questions) {
-        this.number_of_questions = number_of_questions;
+    public User getUser() {
+        return user;
     }
 }

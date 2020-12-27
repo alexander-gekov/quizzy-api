@@ -1,14 +1,17 @@
 package com.quizzy.quizzy;
 
-import com.quizzy.quizzy.model.Question;
 import com.quizzy.quizzy.model.Quiz;
+import com.quizzy.quizzy.model.User;
+import com.quizzy.quizzy.payload.request.QuizRequest;
 import com.quizzy.quizzy.repository.QuestionRepository;
 import com.quizzy.quizzy.repository.QuizRepository;
+import com.quizzy.quizzy.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -22,22 +25,21 @@ public class QuizResourceTest {
     private QuizRepository mockRepository;
     @Mock
     private QuestionRepository mockQuestionRepository;
+    @Mock
+    private UserRepository mockUserRepository;
 
     private QuizResource quizResourceUnderTest;
 
     @Before
     public void setUp() {
         initMocks(this);
-        quizResourceUnderTest = new QuizResource(mockRepository, mockQuestionRepository);
+        quizResourceUnderTest = new QuizResource(mockRepository, mockQuestionRepository, mockUserRepository);
     }
 
     @Test
     public void testAll() {
         // Setup
-
-        // Configure QuizRepository.findAll(...).
-        final List<Quiz> quizzes = List.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockRepository.findAll()).thenReturn(quizzes);
+        when(mockRepository.findAll()).thenReturn(List.of(new Quiz()));
 
         // Run the test
         final List<Quiz> result = quizResourceUnderTest.all();
@@ -46,16 +48,66 @@ public class QuizResourceTest {
     }
 
     @Test
-    public void testNewQuiz() {
+    public void testMyCollection() {
         // Setup
-        final Quiz newQuiz = new Quiz("name", "topic", List.of(new Question()));
 
-        // Configure QuizRepository.save(...).
-        final Quiz quiz = new Quiz("name", "topic", List.of(new Question()));
-        when(mockRepository.save(any(Quiz.class))).thenReturn(quiz);
+        // Configure UserRepository.findById(...).
+        final Optional<User> user = Optional.of(new User("username", "email", "password"));
+        when(mockUserRepository.findById(0)).thenReturn(user);
+
+        when(mockRepository.findByUser(Optional.of(new User("username", "email", "password")))).thenReturn(List.of(new Quiz()));
 
         // Run the test
-        final Quiz result = quizResourceUnderTest.newQuiz(newQuiz);
+        final List<Quiz> result = quizResourceUnderTest.myCollection(0);
+
+        // Verify the results
+    }
+
+    @Test
+    public void testMyCollection_UserRepositoryReturnsAbsent() {
+        // Setup
+        when(mockUserRepository.findById(0)).thenReturn(Optional.empty());
+        when(mockRepository.findByUser(Optional.of(new User("username", "email", "password")))).thenReturn(List.of(new Quiz()));
+
+        // Run the test
+        final List<Quiz> result = quizResourceUnderTest.myCollection(0);
+
+        // Verify the results
+    }
+
+    @Test
+    public void testNewQuiz() {
+        // Setup
+        final QuizRequest quizRequest = new QuizRequest();
+        quizRequest.setName("name");
+        quizRequest.setTopic("topic");
+        quizRequest.setUser_id(0);
+
+        // Configure UserRepository.findById(...).
+        final Optional<User> user = Optional.of(new User("username", "email", "password"));
+        when(mockUserRepository.findById(0)).thenReturn(user);
+
+        when(mockRepository.save(any(Quiz.class))).thenReturn(new Quiz());
+
+        // Run the test
+        final Quiz result = quizResourceUnderTest.newQuiz(quizRequest);
+
+        // Verify the results
+    }
+
+    @Test(expected= NoSuchElementException.class)
+    public void testNewQuiz_UserRepositoryReturnsAbsent() {
+        // Setup
+        final QuizRequest quizRequest = new QuizRequest();
+        quizRequest.setName("name");
+        quizRequest.setTopic("topic");
+        quizRequest.setUser_id(0);
+
+        when(mockUserRepository.findById(0)).thenReturn(Optional.empty());
+        when(mockRepository.save(any(Quiz.class))).thenReturn(new Quiz());
+
+        // Run the test
+        final Quiz result = quizResourceUnderTest.newQuiz(quizRequest);
 
         // Verify the results
     }
@@ -63,10 +115,7 @@ public class QuizResourceTest {
     @Test
     public void testOne() {
         // Setup
-
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockRepository.findById(0)).thenReturn(quiz);
+        when(mockRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
 
         // Run the test
         final Quiz result = quizResourceUnderTest.one(0);
@@ -74,7 +123,7 @@ public class QuizResourceTest {
         // Verify the results
     }
 
-    @Test(expected = UserNotFoundException.class)
+    @Test(expected= UserNotFoundException.class)
     public void testOne_QuizRepositoryReturnsAbsent() {
         // Setup
         when(mockRepository.findById(0)).thenReturn(Optional.empty());
@@ -88,15 +137,18 @@ public class QuizResourceTest {
     @Test
     public void testReplaceUser() {
         // Setup
-        final Quiz newQuiz = new Quiz("name", "topic", List.of(new Question()));
+        final QuizRequest newQuiz = new QuizRequest();
+        newQuiz.setName("name");
+        newQuiz.setTopic("topic");
+        newQuiz.setUser_id(0);
 
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockRepository.findById(0)).thenReturn(quiz);
+        when(mockRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
 
-        // Configure QuizRepository.save(...).
-        final Quiz quiz1 = new Quiz("name", "topic", List.of(new Question()));
-        when(mockRepository.save(any(Quiz.class))).thenReturn(quiz1);
+        // Configure UserRepository.findById(...).
+        final Optional<User> user = Optional.of(new User("username", "email", "password"));
+        when(mockUserRepository.findById(0)).thenReturn(user);
+
+        when(mockRepository.save(any(Quiz.class))).thenReturn(new Quiz());
 
         // Run the test
         final Quiz result = quizResourceUnderTest.replaceUser(newQuiz, 0);
@@ -107,12 +159,36 @@ public class QuizResourceTest {
     @Test
     public void testReplaceUser_QuizRepositoryFindByIdReturnsAbsent() {
         // Setup
-        final Quiz newQuiz = new Quiz("name", "topic", List.of(new Question()));
+        final QuizRequest newQuiz = new QuizRequest();
+        newQuiz.setName("name");
+        newQuiz.setTopic("topic");
+        newQuiz.setUser_id(0);
+
         when(mockRepository.findById(0)).thenReturn(Optional.empty());
 
-        // Configure QuizRepository.save(...).
-        final Quiz quiz = new Quiz("name", "topic", List.of(new Question()));
-        when(mockRepository.save(any(Quiz.class))).thenReturn(quiz);
+        // Configure UserRepository.findById(...).
+        final Optional<User> user = Optional.of(new User("username", "email", "password"));
+        when(mockUserRepository.findById(0)).thenReturn(user);
+
+        when(mockRepository.save(any(Quiz.class))).thenReturn(new Quiz());
+
+        // Run the test
+        final Quiz result = quizResourceUnderTest.replaceUser(newQuiz, 0);
+
+        // Verify the results
+    }
+
+    @Test(expected= NoSuchElementException.class)
+    public void testReplaceUser_UserRepositoryReturnsAbsent() {
+        // Setup
+        final QuizRequest newQuiz = new QuizRequest();
+        newQuiz.setName("name");
+        newQuiz.setTopic("topic");
+        newQuiz.setUser_id(0);
+
+        when(mockRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
+        when(mockUserRepository.findById(0)).thenReturn(Optional.empty());
+        when(mockRepository.save(any(Quiz.class))).thenReturn(new Quiz());
 
         // Run the test
         final Quiz result = quizResourceUnderTest.replaceUser(newQuiz, 0);

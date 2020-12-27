@@ -1,14 +1,6 @@
-package com.quizzy.quizzy.UnitTests;
+package com.quizzy.quizzy.model;
 
-import com.quizzy.quizzy.model.ERole;
-import com.quizzy.quizzy.model.Role;
-import com.quizzy.quizzy.model.User;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
