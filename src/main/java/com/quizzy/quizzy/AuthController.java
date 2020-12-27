@@ -32,8 +32,9 @@ import com.quizzy.quizzy.repository.UserRepository;
 import com.quizzy.quizzy.security.jwt.JwtUtils;
 import com.quizzy.quizzy.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600000)
+
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/auth")
 public class AuthController {
 
