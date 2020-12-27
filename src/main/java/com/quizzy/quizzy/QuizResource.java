@@ -20,19 +20,16 @@ public class QuizResource {
         this.questionRepository = questionRepository;
     }
 
-    @CrossOrigin
     @GetMapping("/quizzes")
     public List<Quiz> all() {
         return repository.findAll();
     }
 
-    @CrossOrigin
     @PostMapping("/quizzes")
     public Quiz newQuiz(@RequestBody Quiz newQuiz) {
         return repository.save(newQuiz);
     }
 
-    @CrossOrigin
     @GetMapping("quizzes/{id}")
     public Quiz one(@PathVariable int id) {
         Optional<Quiz> quiz = repository.findById(id);
@@ -40,7 +37,7 @@ public class QuizResource {
             throw new UserNotFoundException("id-" + id);
         return quiz.get();
     }
-    @CrossOrigin  
+    
     @PutMapping("quizzes/{id}")
     public Quiz replaceUser(@RequestBody Quiz newQuiz, @PathVariable int id) {
 
@@ -56,7 +53,6 @@ public class QuizResource {
                 });
     }
 
-    @CrossOrigin
     @DeleteMapping("quizzes/{id}")
     public void deleteQuiz(@PathVariable int id) {
         repository.deleteById(id);
