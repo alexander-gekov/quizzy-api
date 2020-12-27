@@ -1,5 +1,7 @@
 package com.quizzy.quizzy.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,8 +22,10 @@ public class Quiz implements Serializable {
     private String topic;
     private int number_of_questions;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "quiz")
+    @JsonManagedReference
     private List<Question> questions;
 
     public Quiz(String name, String topic, List<Question> questions) {

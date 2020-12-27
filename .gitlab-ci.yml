@@ -1,0 +1,35 @@
+image: maven:3-jdk-11
+
+stages:
+  - build
+  - test
+  - sonar
+
+build:
+  stage: build
+  script:
+    - ./mvnw clean install
+    - ./mvnw compiler:compile
+
+test:
+  stage: test
+  script:
+    - ./mvnw test
+  
+sonarqube-check:
+  stage: sonar
+  image: maven:3.6.3-jdk-11
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - ./mvnw clean install sonar:sonar "-Dsonar.sources=src/main/java/" "-Dsonar.java.binaries=target/classes" "-Dsonar.projectKey=Quizzy"  "-Dsonar.host.url=http://localhost:9000"  "-Dsonar.login=9fc7e2e8dc8827eaf2af89297773d0f5f26ceccb"
+  allow_failure: true
+  only:
+    - merge_requests
+    - master
+    - develop

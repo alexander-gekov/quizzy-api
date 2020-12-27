@@ -3,10 +3,15 @@ package com.quizzy.quizzy.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")})
 public class User implements Serializable {
 
     @Id
@@ -18,7 +23,13 @@ public class User implements Serializable {
     private String password;
     private String email;
 
-    public User(String username, String email, String password){
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User(String username, String email, String password) {
         this.id = counter;
         counter++;
         this.username = username;
@@ -55,19 +66,21 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username) &&
+        return Objects.equals(username, user.username) &&
                 Objects.equals(email, user.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, username, email);
     }
 
     @Override
@@ -77,5 +90,9 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

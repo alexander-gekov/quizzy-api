@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "quizzy.app.jwtExpirationMs",
+      "type": "java.lang.String",
+      "description": "Description for quizzy.app.jwtExpirationMs."
+  }
+] }
