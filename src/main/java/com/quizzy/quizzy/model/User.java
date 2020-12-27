@@ -1,11 +1,11 @@
 package com.quizzy.quizzy.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users",
@@ -29,12 +29,19 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    @JsonManagedReference
+    private List<Quiz> quizzes;
+
     public User(String username, String email, String password) {
         this.id = counter;
         counter++;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.quizzes = new ArrayList<>();
     }
 
     public User() {
@@ -94,5 +101,13 @@ public class User implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
     }
 }

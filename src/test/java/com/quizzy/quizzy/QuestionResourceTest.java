@@ -57,10 +57,7 @@ public class QuestionResourceTest {
         questionRequest.setCorrectAnswer("correctAnswer");
         questionRequest.setSeconds(0);
 
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockQuizRepository.findById(0)).thenReturn(quiz);
-
+        when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
         // Run the test
@@ -69,7 +66,7 @@ public class QuestionResourceTest {
         // Verify the results
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected= NoSuchElementException.class)
     public void testNewQuestion_QuizRepositoryReturnsAbsent() {
         // Setup
         final QuestionRequest questionRequest = new QuestionRequest();
@@ -102,7 +99,7 @@ public class QuestionResourceTest {
         // Verify the results
     }
 
-    @Test(expected = UserNotFoundException.class)
+    @Test(expected= UserNotFoundException.class)
     public void testOne_QuestionRepositoryReturnsAbsent() {
         // Setup
         when(mockRepository.findById(0)).thenReturn(Optional.empty());
@@ -127,11 +124,7 @@ public class QuestionResourceTest {
         questionRequest.setSeconds(0);
 
         when(mockRepository.findById(0)).thenReturn(Optional.of(new Question()));
-
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockQuizRepository.findById(0)).thenReturn(quiz);
-
+        when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
         // Run the test
@@ -140,7 +133,7 @@ public class QuestionResourceTest {
         // Verify the results
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected= NoSuchElementException.class)
     public void testReplaceQuestion_QuestionRepositoryFindByIdReturnsAbsent() {
         // Setup
         final QuestionRequest questionRequest = new QuestionRequest();
@@ -154,11 +147,7 @@ public class QuestionResourceTest {
         questionRequest.setSeconds(0);
 
         when(mockRepository.findById(0)).thenReturn(Optional.empty());
-
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockQuizRepository.findById(0)).thenReturn(quiz);
-
+        when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
         // Run the test
@@ -167,7 +156,7 @@ public class QuestionResourceTest {
         // Verify the results
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected= NoSuchElementException.class)
     public void testReplaceQuestion_QuizRepositoryReturnsAbsent() {
         // Setup
         final QuestionRequest questionRequest = new QuestionRequest();
@@ -204,12 +193,8 @@ public class QuestionResourceTest {
     @Test
     public void testGetByQuiz() {
         // Setup
-
-        // Configure QuizRepository.findById(...).
-        final Optional<Quiz> quiz = Optional.of(new Quiz("name", "topic", List.of(new Question())));
-        when(mockQuizRepository.findById(0)).thenReturn(quiz);
-
-        when(mockRepository.findByQuiz(Optional.of(new Quiz("name", "topic", List.of(new Question()))))).thenReturn(List.of(new Question()));
+        when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
+        when(mockRepository.findByQuiz(Optional.of(new Quiz()))).thenReturn(List.of(new Question()));
 
         // Run the test
         final List<Question> result = questionResourceUnderTest.getByQuiz(0);
@@ -217,11 +202,11 @@ public class QuestionResourceTest {
         // Verify the results
     }
 
-    @Test(expected = UserNotFoundException.class)
+    @Test(expected= UserNotFoundException.class)
     public void testGetByQuiz_QuizRepositoryReturnsAbsent() {
         // Setup
         when(mockQuizRepository.findById(0)).thenReturn(Optional.empty());
-        when(mockRepository.findByQuiz(Optional.of(new Quiz("name", "topic", List.of(new Question()))))).thenReturn(List.of(new Question()));
+        when(mockRepository.findByQuiz(Optional.of(new Quiz()))).thenReturn(List.of(new Question()));
 
         // Run the test
         final List<Question> result = questionResourceUnderTest.getByQuiz(0);
