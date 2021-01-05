@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class QuestionResource {
     private final QuestionRepository repository;
@@ -22,11 +23,13 @@ public class QuestionResource {
         this.quizRepository = quizRepository;
     }
 
+    @CrossOrigin
     @GetMapping("/questions")
     public List<Question> all() {
         return repository.findAll();
     }
 
+    @CrossOrigin
     @PostMapping("/questions")
     @PreAuthorize("hasRole('USER')")
     public Question newQuestion(@RequestBody QuestionRequest questionRequest) {
@@ -46,6 +49,7 @@ public class QuestionResource {
         return newQuestion;
     }
 
+    @CrossOrigin
     @GetMapping("/questions/{id}")
     public Question one(@PathVariable int id) {
         Optional<Question> question = repository.findById(id);
@@ -54,6 +58,7 @@ public class QuestionResource {
         return question.get();
     }
 
+    @CrossOrigin
     @PutMapping("/questions/{id}")
     public Question replaceQuestion(@RequestBody QuestionRequest questionRequest, @PathVariable int id) {
         Optional<Question> optionalQuestion = repository.findById(id);
@@ -76,11 +81,13 @@ public class QuestionResource {
         }
     }
 
+    @CrossOrigin
     @DeleteMapping("/questions/{id}")
     public void deleteQuestion(@PathVariable int id) {
         repository.deleteById(id);
     }
 
+    @CrossOrigin
     @GetMapping("/questions/quiz/{id}")
     public List<Question> getByQuiz(@PathVariable int id) {
         Optional<Quiz> quiz = quizRepository.findById(id);
