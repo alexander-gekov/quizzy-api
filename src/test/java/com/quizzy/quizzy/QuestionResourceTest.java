@@ -35,18 +35,16 @@ public class QuestionResourceTest {
 
     @Test
     public void testAll() {
-        // Setup
+
         when(mockRepository.findAll()).thenReturn(List.of(new Question()));
 
-        // Run the test
         final List<Question> result = questionResourceUnderTest.all();
 
-        // Verify the results
     }
 
     @Test
     public void testNewQuestion() {
-        // Setup
+
         final QuestionRequest questionRequest = new QuestionRequest();
         questionRequest.setQuestionString("questionString");
         questionRequest.setAnswer1("answer1");
@@ -60,15 +58,13 @@ public class QuestionResourceTest {
         when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
-        // Run the test
         final Question result = questionResourceUnderTest.newQuestion(questionRequest);
 
-        // Verify the results
     }
 
     @Test(expected= NoSuchElementException.class)
     public void testNewQuestion_QuizRepositoryReturnsAbsent() {
-        // Setup
+
         final QuestionRequest questionRequest = new QuestionRequest();
         questionRequest.setQuestionString("questionString");
         questionRequest.setAnswer1("answer1");
@@ -82,37 +78,36 @@ public class QuestionResourceTest {
         when(mockQuizRepository.findById(0)).thenReturn(Optional.empty());
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.newQuestion(questionRequest);
 
-        // Verify the results
+
     }
 
     @Test
     public void testOne() {
-        // Setup
+
         when(mockRepository.findById(0)).thenReturn(Optional.of(new Question()));
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.one(0);
 
-        // Verify the results
+
     }
 
     @Test(expected= UserNotFoundException.class)
     public void testOne_QuestionRepositoryReturnsAbsent() {
-        // Setup
+
         when(mockRepository.findById(0)).thenReturn(Optional.empty());
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.one(0);
 
-        // Verify the results
     }
 
     @Test
     public void testReplaceQuestion() {
-        // Setup
+
         final QuestionRequest questionRequest = new QuestionRequest();
         questionRequest.setQuestionString("questionString");
         questionRequest.setAnswer1("answer1");
@@ -127,15 +122,15 @@ public class QuestionResourceTest {
         when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.replaceQuestion(questionRequest, 0);
 
-        // Verify the results
+
     }
 
     @Test(expected= NoSuchElementException.class)
     public void testReplaceQuestion_QuestionRepositoryFindByIdReturnsAbsent() {
-        // Setup
+
         final QuestionRequest questionRequest = new QuestionRequest();
         questionRequest.setQuestionString("questionString");
         questionRequest.setAnswer1("answer1");
@@ -150,15 +145,15 @@ public class QuestionResourceTest {
         when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.replaceQuestion(questionRequest, 0);
 
-        // Verify the results
+
     }
 
     @Test(expected= NoSuchElementException.class)
     public void testReplaceQuestion_QuizRepositoryReturnsAbsent() {
-        // Setup
+
         final QuestionRequest questionRequest = new QuestionRequest();
         questionRequest.setQuestionString("questionString");
         questionRequest.setAnswer1("answer1");
@@ -173,44 +168,35 @@ public class QuestionResourceTest {
         when(mockQuizRepository.findById(0)).thenReturn(Optional.empty());
         when(mockRepository.save(any(Question.class))).thenReturn(new Question());
 
-        // Run the test
+
         final Question result = questionResourceUnderTest.replaceQuestion(questionRequest, 0);
 
-        // Verify the results
+
     }
 
     @Test
     public void testDeleteQuestion() {
-        // Setup
 
-        // Run the test
         questionResourceUnderTest.deleteQuestion(0);
 
-        // Verify the results
         verify(mockRepository).deleteById(0);
     }
 
     @Test
     public void testGetByQuiz() {
-        // Setup
         when(mockQuizRepository.findById(0)).thenReturn(Optional.of(new Quiz()));
         when(mockRepository.findByQuiz(Optional.of(new Quiz()))).thenReturn(List.of(new Question()));
 
-        // Run the test
         final List<Question> result = questionResourceUnderTest.getByQuiz(0);
 
-        // Verify the results
     }
 
     @Test(expected= UserNotFoundException.class)
     public void testGetByQuiz_QuizRepositoryReturnsAbsent() {
-        // Setup
         when(mockQuizRepository.findById(0)).thenReturn(Optional.empty());
         when(mockRepository.findByQuiz(Optional.of(new Quiz()))).thenReturn(List.of(new Question()));
 
-        // Run the test
         final List<Question> result = questionResourceUnderTest.getByQuiz(0);
 
-        // Verify the results
     }
 }

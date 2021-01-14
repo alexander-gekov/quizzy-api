@@ -23,6 +23,10 @@ public class User implements Serializable {
     private String password;
     private String email;
 
+    private String location = "Eindhoven";
+    private String institution = "Fontys";
+    private String bio = "Example Bio";
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -46,6 +50,15 @@ public class User implements Serializable {
 
     public User() {
 
+    }
+
+    public User(String username, String password, String email, String location, String institution, String bio) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.location = location;
+        this.institution = institution;
+        this.bio = bio;
     }
 
     public void setId(int id) {
@@ -109,5 +122,29 @@ public class User implements Serializable {
 
     public void setQuizzes(List<Quiz> quizzes) {
         this.quizzes = quizzes;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

@@ -38,7 +38,7 @@ public class AuthControllerTest {
 
     @Test
     public void testRegisterUser() {
-        // Setup
+
         final SignupRequest signUpRequest = new SignupRequest();
         signUpRequest.setUsername("username");
         signUpRequest.setEmail("email");
@@ -50,14 +50,14 @@ public class AuthControllerTest {
         when(authControllerUnderTest.encoder.encode("charSequence")).thenReturn("result");
         when(authControllerUnderTest.roleRepository.findByName(ERole.ROLE_USER)).thenReturn(Optional.of(new Role(ERole.ROLE_USER)));
 
-        // Configure UserRepository.save(...).
+
         final User user = new User("username", "email", "password");
         when(authControllerUnderTest.userRepository.save(new User("username", "email", "password"))).thenReturn(user);
 
-        // Run the test
+
         final ResponseEntity<?> result = authControllerUnderTest.registerUser(signUpRequest);
 
-        // Verify the results
+
     }
 
 }

@@ -1,6 +1,5 @@
 package com.quizzy.quizzy;
 
-import com.quizzy.quizzy.model.Question;
 import com.quizzy.quizzy.model.Quiz;
 import com.quizzy.quizzy.model.User;
 import com.quizzy.quizzy.payload.request.QuizRequest;
