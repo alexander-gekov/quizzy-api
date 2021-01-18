@@ -23,6 +23,11 @@ public class User implements Serializable {
     private String password;
     private String email;
 
+    private int first_places = 0;
+    private int points = 0;
+    private int games_played = 0;
+    private int ranking = 0;
+
     private String location = "Eindhoven";
     private String institution = "Fontys";
     private String bio = "Example Bio";
@@ -146,5 +151,37 @@ public class User implements Serializable {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public int getFirst_places() {
+        return first_places;
+    }
+
+    public void setFirst_places(int first_places) {
+        this.first_places = first_places;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getGames_played() {
+        return games_played;
+    }
+
+    public void setGames_played(int games_played) {
+        this.games_played = games_played;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
     }
 }
