@@ -26,7 +26,7 @@ public class User implements Serializable {
     private int first_places = 0;
     private int points = 0;
     private int games_played = 0;
-    private int ranking = 0;
+    private int ranking = 100;
 
     private String location = "Eindhoven";
     private String institution = "Fontys";

@@ -29,6 +29,23 @@ public class UserResource {
     }
 
     @CrossOrigin
+    @PostMapping("/users{id}/setStatistics")
+    public String statistics(@PathVariable int id,int games_played,int first_places,int points,int rank) {
+        try {
+            User user = repository.findById(id).get();
+            user.setGames_played(user.getGames_played() + games_played);
+            user.setFirst_places(user.getFirst_places() + first_places);
+            user.setPoints(user.getPoints() + points);
+            user.setRanking(user.getRanking() - rank);
+            return "Success";
+        }
+        catch (Exception e){
+            return "Failed";
+        }
+
+    }
+  
+    @CrossOrigin
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable int id) {
         Optional<User> user = repository.findById(id);

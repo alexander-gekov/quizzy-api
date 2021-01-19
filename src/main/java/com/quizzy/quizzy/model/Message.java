@@ -38,6 +38,7 @@ public class Message {
         EXISTS,
         START,
         END,
+        COUNTDOWN,
         ANSWER,
         JOIN,
         LEFT,
