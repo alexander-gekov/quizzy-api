@@ -27,11 +27,6 @@ public class GameController {
     @Autowired
     SimpUserRegistry userRegistry;
 
-    private final UserRepository userRepository;
-
-    GameController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -77,30 +72,13 @@ public class GameController {
 
     @MessageMapping("/game/{gameId}/answer")
     public void answer(@DestinationVariable String gameId, @Payload Message message) {
-        for (Room room:rooms
-        ) {
-            if (room.getGameId().equals(gameId)) {
-                for (String username:room.getPlayers()
-                ) {
-                    userRepository.findByUsername(username).get().setPoints(userRepository.findByUsername(username).get().getPoints() + 10);
-                }
-            }
-        }
         simpMessagingTemplate.convertAndSend("/topic/" + gameId, message);
     }
 
     @MessageMapping("/game/{gameId}/endGame")
     public void endGame(@DestinationVariable String gameId, @Payload Message message) {
         message.setType(Message.MessageType.END);
-        for (Room room:rooms
-             ) {
-            if (room.getGameId().equals(gameId)) {
-                for (String username:room.getPlayers()
-                     ) {
-                    userRepository.findByUsername(username).get().setGames_played(userRepository.findByUsername(username).get().getGames_played() + 1);
-                }
-            }
-        }
+
         simpMessagingTemplate.convertAndSend("/topic/" + gameId, message);
     }
 
@@ -113,6 +91,13 @@ public class GameController {
             }
         }
         simpMessagingTemplate.convertAndSend("/topic/" + gameId, message);
+    }
+
+    @MessageMapping("/game/{gameId}/countdown")
+    public void countdown(@DestinationVariable String gameId, @Payload Message message) {
+        if(message.getType() == Message.MessageType.COUNTDOWN){
+            simpMessagingTemplate.convertAndSend("/topic/" + gameId, message);
+        }
     }
 
     @MessageMapping("/game/{gameId}/startGame")
