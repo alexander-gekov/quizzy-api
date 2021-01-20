@@ -38,7 +38,7 @@ public class UserResource {
             user.setFirst_places(user.getFirst_places() + request.getFirst_places());
             user.setPoints(user.getPoints() + request.getPoints());
             user.setRanking(user.getRanking() - request.getRanking());
-            return user;
+            return repository.save(user);
 
     }
   
