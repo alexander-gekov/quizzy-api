@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - sonar
+  - deploy
 
 build:
   stage: build
@@ -33,3 +34,15 @@ sonarqube-check:
     - merge_requests
     - master
     - develop
+
+ docker-build:
+  image: docker:latest
+  stage: deploy
+  services:
+    - docker:dind
+  before_script:
+    #- docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  script:
+    #- docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker build -t alexander-gekov/quizzy .
+    #- docker push "$CI_REGISTRY_IMAGE"

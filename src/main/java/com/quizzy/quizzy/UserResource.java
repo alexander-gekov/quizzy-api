@@ -30,9 +30,9 @@ public class UserResource {
 
     @CrossOrigin
     @PostMapping("/users/{id}/setStatistics")
-    public String statistics(@PathVariable int id,int games_played,int first_places,int points,int rank) {
+    public String statistics(@PathVariable String username,int games_played,int first_places,int points,int rank) {
         try {
-            User user = repository.findById(id).get();
+            User user = repository.findByUsername(username).get();
             user.setGames_played(user.getGames_played() + games_played);
             user.setFirst_places(user.getFirst_places() + first_places);
             user.setPoints(user.getPoints() + points);
