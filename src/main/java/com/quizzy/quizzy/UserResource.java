@@ -28,19 +28,6 @@ public class UserResource {
     public User newUser(@RequestBody User newUser) {
         return repository.save(newUser);
     }
-
-    @CrossOrigin
-    @PostMapping("/users/{username}/setStatistics")
-    public User statistics(@PathVariable String username, @RequestBody StatisticRequest request) {
-
-            User user = repository.findByUsername(username).get();
-            user.setGames_played(user.getGames_played() + request.getGames_played());
-            user.setFirst_places(user.getFirst_places() + request.getFirst_places());
-            user.setPoints(user.getPoints() + request.getPoints());
-            user.setRanking(user.getRanking() - request.getRanking());
-            return repository.save(user);
-
-    }
   
     @CrossOrigin
     @GetMapping("/users/{id}")

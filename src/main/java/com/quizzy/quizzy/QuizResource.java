@@ -3,6 +3,7 @@ package com.quizzy.quizzy;
 import com.quizzy.quizzy.model.Quiz;
 import com.quizzy.quizzy.model.User;
 import com.quizzy.quizzy.payload.request.QuizRequest;
+import com.quizzy.quizzy.payload.request.StatisticRequest;
 import com.quizzy.quizzy.repository.QuestionRepository;
 import com.quizzy.quizzy.repository.QuizRepository;
 import com.quizzy.quizzy.repository.UserRepository;
@@ -29,6 +30,19 @@ public class QuizResource {
     @GetMapping("/quizzes")
     public List<Quiz> all() {
         return repository.findAll();
+    }
+
+    @CrossOrigin
+    @PostMapping("/users/{username}/setStatistics")
+    public User statistics(@PathVariable String username, @RequestBody StatisticRequest request) {
+
+        User user = userRepository.findByUsername(username).get();
+        user.setGames_played(user.getGames_played() + request.getGames_played());
+        user.setFirst_places(user.getFirst_places() + request.getFirst_places());
+        user.setPoints(user.getPoints() + request.getPoints());
+        user.setRanking(user.getRanking() + request.getRanking());
+        return userRepository.save(user);
+
     }
 
     @CrossOrigin
