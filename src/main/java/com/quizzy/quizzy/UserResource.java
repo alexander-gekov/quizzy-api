@@ -29,7 +29,7 @@ public class UserResource {
     }
 
     @CrossOrigin
-    @PostMapping("/users{id}/setStatistics")
+    @PostMapping("/users/{id}/setStatistics")
     public String statistics(@PathVariable int id,int games_played,int first_places,int points,int rank) {
         try {
             User user = repository.findById(id).get();
