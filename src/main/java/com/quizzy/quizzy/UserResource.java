@@ -1,6 +1,7 @@
 package com.quizzy.quizzy;
 
 import com.quizzy.quizzy.model.User;
+import com.quizzy.quizzy.payload.request.StatisticRequest;
 import com.quizzy.quizzy.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,19 +30,15 @@ public class UserResource {
     }
 
     @CrossOrigin
-    @PostMapping("/users/{id}/setStatistics")
-    public String statistics(@PathVariable String username,int games_played,int first_places,int points,int rank) {
-        try {
+    @PostMapping("/users/{username}/setStatistics")
+    public User statistics(@PathVariable String username, @RequestBody StatisticRequest request) {
+
             User user = repository.findByUsername(username).get();
-            user.setGames_played(user.getGames_played() + games_played);
-            user.setFirst_places(user.getFirst_places() + first_places);
-            user.setPoints(user.getPoints() + points);
-            user.setRanking(user.getRanking() - rank);
-            return "Success";
-        }
-        catch (Exception e){
-            return "Failed";
-        }
+            user.setGames_played(user.getGames_played() + request.getGames_played());
+            user.setFirst_places(user.getFirst_places() + request.getFirst_places());
+            user.setPoints(user.getPoints() + request.getPoints());
+            user.setRanking(user.getRanking() - request.getRanking());
+            return user;
 
     }
   
